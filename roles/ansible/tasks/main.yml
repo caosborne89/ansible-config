@@ -1,0 +1,9 @@
+---
+# file: roles/ansible/tasks/main.yml
+
+# ansible
+
+- import_tasks: ansible_centos.yml
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == "7"

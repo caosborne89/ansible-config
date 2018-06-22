@@ -1,0 +1,36 @@
+---
+# file: roles/common/tasks/iptables_centos.yml
+
+- name: Install iptables services
+  yum:
+    name: iptables-services
+    state: present
+
+- name: Disable and mask firewalld service
+  systemd:
+    name: firewalld
+    enabled: no
+    masked: yes
+    state: stopped
+
+- name: Enable and start iptables services
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    masked: no
+    state: started
+  with_items:
+    - iptables
+    - ip6tables
+
+- name: Apply common iptables4 rules
+  template:
+    src: iptables4_config
+    dest: /etc/sysconfig/iptables
+  notify: restart iptables
+
+- name: Apply common iptables6 rules
+  template:
+    src: iptables6_config
+    dest: /etc/sysconfig/ip6tables
+  notify: restart iptables6

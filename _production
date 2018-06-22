@@ -1,0 +1,6 @@
+# file: _production
+
+#
+# Inventory file listing all production hosts, grouped by service; see
+# comments in "site.yml" for further information.
+#

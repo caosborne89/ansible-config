@@ -1,0 +1,15 @@
+---
+# file: group_vars/openaz/vars.yml
+
+group_openaz_name: openaz
+group_openaz_gid: 5001
+
+user_openaz_key_rsa: "{{ user_openaz_key_rsa_v }}"
+user_openaz_key_rsa_public: |
+  ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCflpi3VIRY01aFJNsBPYoiBKF4t6xCKpyjE4FQmf+e58NyJEBNj6b43oUX8FnuKtavmN1+lSdnouZGD67HYlGnRXE6ywJYtRwA5BBjtl92WnIy4RXv/K7r8meZmCBos5zgTSPhBYZKfguFbbFHuzGCwTI1y7bLjC06XbxPf7/juYdbCuSRJ0vpT5L43BIZw5G5qXhNcEU09evhmzZz9Xy8M25QShaHCHt0dcBwJo8FPwcVmHyYshxHzCWf4X+TGOmPDmHxSQuMFvVt/ckjAxNiNp6z5OOAxH52xlQetUNrVVHb9i6LkxcG/lKucuxZRnY48EnuhUUTB3A4V4V0GYDNtGhHHqgP4yajwiLPQrFVYQlK496ZXJlT9ZkT+TxkdS3PxSC1RjxMOZOZOGCIbjp2pWZgHo9JQVviV0HfVT84KZ5xBoof1DmYeFZ/v2ybF5yar+iz/tlI/aluqOvQmYsVSmiH5sH8k8QCN9LN5L6Bsrk4ZIQUeEYJoUoPTGkmCHSmAQ0hdQWti7ltocUDXet7vewCwop1CXjBc5w3BxuhqMiP1P3J+uriICpQqmB8H/knKmiU3khovWeejSA9XoPEsKKEAaqQdPr+Ends3jt6FFzxW6QXUh4K4UIucOx/XdsXDSLgyC6KmR3xigKtJOeyC4H9Tjy/dW1LLcoIIhrZTw== openaz-admin@ansible1
+
+user_openaz_name: openaz-admin
+user_openaz_uid: 5001
+user_openaz_comment: OpenAZ Admin
+user_openaz_shell: /bin/bash
+user_openaz_home: /home/openaz-admin

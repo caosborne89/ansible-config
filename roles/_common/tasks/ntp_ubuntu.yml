@@ -1,0 +1,27 @@
+---
+# file: roles/common/tasks/ntp_ubuntu.yml
+
+- name: Set timezone
+  copy:
+    src: "/usr/share/zoneinfo/{{ vm_tzone }}"
+    dest: "/etc/localtime"
+    owner: root
+    group: root
+
+- name: Install ntp services
+  apt:
+    name: ntp
+    state: present
+
+- name: Enable and start ntp service
+  systemd:
+    name: ntp
+    enabled: yes
+    masked: no
+    state: started
+
+- name: Apply common ntp configuration
+  template:
+    src: ntp_config
+    dest: /etc/ntp.conf
+  notify: restart ntp

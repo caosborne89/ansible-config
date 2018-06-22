@@ -1,0 +1,15 @@
+---
+# file: site_ansible.yml
+
+#
+# Service configurations for the Ansible control host; see comments in "site.yml"
+# for further information.
+#
+
+- name: Apply common and ansible configurations to the ansible control host
+  hosts: ansible
+  remote_user: ansible-admin
+  
+  roles:
+    - _common
+    - ansible

@@ -1,0 +1,9 @@
+# file: _support
+
+#
+# Inventory file listing all support hosts, grouped by service; see
+# comments in "site.yml" for further information.
+#
+
+[ansible]
+ansible1

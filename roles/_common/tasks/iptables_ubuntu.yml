@@ -1,0 +1,26 @@
+---
+# file: roles/common/tasks/iptables_ubuntu.yml
+
+- name: Install iptables plugin for netfilter
+  apt:
+    name: iptables-persistent
+    state: present
+
+- name: Enable and start netfilter service
+  systemd:
+    service: netfilter-persistent
+    enabled: yes
+    masked: no
+    state: started
+
+- name: Apply common iptables4 rules
+  template:
+    src: iptables4_config
+    dest: /etc/iptables/rules.v4
+  notify: restart netfilter-persistent
+
+- name: Apply common iptables6 rules
+  template:
+    src: iptables6_config
+    dest: /etc/iptables/rules.v6
+  notify: restart netfilter

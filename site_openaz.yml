@@ -1,0 +1,15 @@
+---
+# file: site_openaz.yml
+
+#
+# Service configurations for the OpenAZ control hosts; see comments in "site.yml"
+# for further information.
+#
+
+- name: Apply common and openaz configurations to the openaz service hosts
+  hosts: openaz
+  remote_user: ansible-admin
+  
+  roles:
+    - _common
+#    - openaz

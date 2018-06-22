@@ -1,0 +1,55 @@
+---
+# file: roles/ansible/tasks/ansible_centos.yml
+
+- name: Install ansible service
+  yum:
+    name: ansible
+    state: present
+
+- name: Install ansible dependencies
+  yum:
+    name: NetworkManager-glib
+    state: present
+
+- name: Create ansible group
+  group:
+    name: ansible
+    gid: 5000
+    state: present
+
+- name: Create ansible user
+  user:
+    name: ansible-admin
+    comment: Ansible Admin
+    uid: 5000
+    group: ansible
+    home: /etc/ansible
+    shell: /bin/bash
+    state: present
+
+- name: Create ansible directory
+  file:
+    path: /etc/ansible
+    state: directory
+    owner: ansible-admin
+    group: ansible
+    recurse: yes
+
+- name: Create ansible user ssh directory
+  file:
+    path: /etc/ansible/.ssh
+    state: directory
+    owner: ansible-admin
+    group: ansible
+    mode: 0700
+
+- name: Install ansible user ssh keys
+  copy:
+    content: "{{ item.content }}"
+    dest: "{{ item.dest }}"
+    owner: ansible-admin
+    group: ansible
+    mode: "{{ item.mode }}"
+  with_items:
+    - { content: "{{ user_ansible_key_rsa }}", dest: "/etc/ansible/.ssh/id_rsa", mode: "0400" }
+    - { content: "{{ user_ansible_key_rsa_public }}", dest: "/etc/ansible/.ssh/id_rsa.pub", mode: "0444" }

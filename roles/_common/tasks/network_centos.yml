@@ -1,0 +1,54 @@
+---
+# file: roles/common/tasks/network_centos.yml
+
+- name: Set hostname file
+  template:
+    src: hostname
+    dest: /etc/hostname
+
+- name: Set hosts file
+  template:
+    src: hosts
+    dest: /etc/hosts
+
+- name: Set primary connection configuration
+  nmcli:
+    conn_name: "{{ vm_net_device}}"
+    ifname: "{{ vm_net_device }}"
+    type: ethernet
+    mtu: "{{ vm_net_mtu }}"
+    ip4: "{{ vm_net_ipaddr }}/{{ vm_net_prefix }}"
+    gw4: "{{ vm_net_gw }}"
+    dns4: "{{ vm_net_dns }}"
+    state: present
+  notify: restart network
+
+- name: Install ssh services
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - openssh
+    - openssh-clients
+    - openssh-server
+
+- name: Enable and start sshd service
+  systemd:
+    name: sshd
+    enabled: yes
+    masked: no
+    state: started
+
+- name: Set ssh host keys
+  copy:
+    content: "{{ item.content }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { content: "{{ vm_hostkey_ecdsa }}", dest: "/etc/ssh/ssh_host_ecdsa_key", mode: "0400" }
+    - { content: "{{ vm_hostkey_ecdsa_public }}", dest: "/etc/ssh/ssh_host_ecdsa_key.pub", mode: "0444" }
+    - { content: "{{ vm_hostkey_ed25519 }}", dest: "/etc/ssh/ssh_host_ed25519_key", mode: "0400" }
+    - { content: "{{ vm_hostkey_ed25519_public }}", dest: "/etc/ssh/ssh_host_ed25519_key.pub", mode: "0444" }
+    - { content: "{{ vm_hostkey_rsa }}", dest: "/etc/ssh/ssh_host_rsa_key", mode: "0400" }
+    - { content: "{{ vm_hostkey_rsa_public }}", dest: "/etc/ssh/ssh_host_rsa_key.pub", mode: "0444" }
+  notify: restart sshd

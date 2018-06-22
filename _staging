@@ -1,0 +1,6 @@
+# file: _staging
+
+#
+# Inventory file listing all staging hosts, grouped by service; see
+# comments in "site.yml" for further information.
+#

@@ -1,0 +1,9 @@
+# file: _testing
+
+#
+# Inventory file listing all testing hosts, grouped by service; see
+# comments in "site.yml" for further information.
+#
+
+[openaz]
+openaz-tst

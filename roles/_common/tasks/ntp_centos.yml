@@ -1,0 +1,28 @@
+---
+# file: roles/common/tasks/ntp_centos.yml
+
+- name: Set timezone
+  file:
+    src: "/usr/share/zoneinfo/{{ vm_tzone }}"
+    dest: "/etc/localtime"
+    owner: root
+    group: root
+    state: link
+
+- name: Install ntp services
+  yum:
+    name: ntp
+    state: present
+
+- name: Enable and start ntpd service
+  systemd:
+    name: ntpd
+    enabled: yes
+    masked: no
+    state: started
+
+- name: Apply common ntp configuration
+  template:
+    src: ntp_config
+    dest: /etc/ntp.conf
+  notify: restart ntpd
